@@ -344,13 +344,17 @@ function SondePaneel({ onVast }) {
         onPointerUp={() => { dragRef.current = null; }}
         onPointerCancel={() => { dragRef.current = null; }}
       >
-        {/* rookgaskanaal (binnenkant) */}
-        <rect x="10" y="20" width={WAND_X - 22} height="140" rx="8" fill="#E8E0CE" stroke={C.brownText} strokeWidth="3" />
-        <text x="120" y="55" fontSize="14" fill={C.brown} fontStyle="italic">rookgaskanaal</text>
-        <text x="120" y="100" fontSize="18" fill={C.brown}>&#8593; &#8593;</text>
+        {/* rookgasafvoerpijp: ronde pijp, doorsnede 14 cm, dus circa 7 cm = midden */}
+        <rect x={WAND_X - 14 * PX_CM} y="20" width={14 * PX_CM} height="140" fill="#E8E0CE" />
+        <rect x={WAND_X - 14 * PX_CM - 14} y="20" width="14" height="140" fill={C.brownText} rx="3" />
+        <text x={WAND_X - 14 * PX_CM - 26} y="82" fontSize="13" fill={C.brown} fontStyle="italic" textAnchor="end">rookgasafvoerpijp</text>
+        <text x={WAND_X - 14 * PX_CM - 26} y="100" fontSize="12" fill={C.brown} fontStyle="italic" textAnchor="end">(rond, doorsnede 14 cm)</text>
+        <text x={WAND_X - 12 * PX_CM} y="148" fontSize="18" fill={C.brown}>&#8593; &#8593;</text>
+        {/* middenlijn van de pijp (7 cm) */}
+        <line x1={WAND_X - 7 * PX_CM} y1="24" x2={WAND_X - 7 * PX_CM} y2="156" stroke={C.brown} strokeWidth="1.5" strokeDasharray="3 5" />
         {/* doelzone circa 7 cm (hulp) */}
-        <rect x={WAND_X - 8 * PX_CM} y="24" width={2 * PX_CM} height="132" fill={C.greenLight} stroke={C.green} strokeWidth="2" strokeDasharray="5 4" rx="4" />
-        <text x={WAND_X - 7 * PX_CM} y="45" fontSize="12" fontWeight="bold" textAnchor="middle" fill={C.green}>circa 7 cm</text>
+        <rect x={WAND_X - 8 * PX_CM} y="24" width={2 * PX_CM} height="132" fill={C.greenLight} stroke={C.green} strokeWidth="2" strokeDasharray="5 4" rx="4" opacity="0.85" />
+        <text x={WAND_X - 7 * PX_CM} y="14" fontSize="12" fontWeight="bold" textAnchor="middle" fill={C.green}>circa 7 cm = midden van de pijp</text>
         {/* wand met meetopening */}
         <rect x={WAND_X - 12} y="20" width="14" height="52" fill={C.brownText} rx="3" />
         <rect x={WAND_X - 12} y="108" width="14" height="52" fill={C.brownText} rx="3" />
@@ -422,7 +426,8 @@ function Ronde1({ addScore, meldAandacht, onDone }) {
           <b>luchttoevoerkanaal</b> controleer je of rookgassen recirculeren.
         </UitlegItem>
         <UitlegItem term="Meetsonde">
-          gaat <b>circa 7 cm</b> diep in het rookgasmeetpunt.
+          gaat <b>circa 7 cm</b> diep in het rookgasmeetpunt: de punt komt dan ongeveer in het{" "}
+          <b>midden van de pijp</b> uit.
         </UitlegItem>
       </RondeIntro>
     );
@@ -498,11 +503,11 @@ function Ronde1({ addScore, meldAandacht, onDone }) {
           <SondePaneel
             onVast={(d, e) => {
               if (d >= 6 && d <= 8) {
-                goed("sonde", `Mooi: ${fmt1(d)} cm, dus circa 7 cm diep. De sonde zit nu midden in de rookgasstroom en meet geen valse lucht mee.`, "klaar", e);
+                goed("sonde", `Mooi: ${fmt1(d)} cm, dus circa 7 cm diep. De sondepunt zit nu ongeveer in het midden van de pijp, midden in de rookgasstroom, en meet geen valse lucht bij de wand mee.`, "klaar", e);
               } else {
                 fout("sonde", d < 6
-                  ? `De sonde zit op ${fmt1(d)} cm: te ondiep. Zo meet je valse lucht bij de meetopening mee. Duw de sonde door tot circa 7 cm.`
-                  : `De sonde zit op ${fmt1(d)} cm: te diep. Trek hem terug tot circa 7 cm, midden in de rookgasstroom.`, "sonde", e);
+                  ? `De sonde zit op ${fmt1(d)} cm: te ondiep. Zo meet je valse lucht bij de meetopening mee. Duw de sonde door tot circa 7 cm, het midden van de pijp.`
+                  : `De sonde zit op ${fmt1(d)} cm: te diep, voorbij het midden van de pijp. Trek hem terug tot circa 7 cm.`, "sonde", e);
               }
             }}
           />
