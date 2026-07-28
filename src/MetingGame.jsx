@@ -261,47 +261,93 @@ const STAND_OPTIES = [
 ];
 
 function KetelSVG({ onKies, gekozen }) {
-  // Schematische HR-ketel met concentrische dakdoorvoer: binnenbuis rookgas,
-  // buitenbuis luchttoevoer, elk met een meetpunt.
-  const punt = (key, cx, cy, label, labelX, anchor) => (
-    <g
-      key={key}
-      onClick={(e) => !gekozen && onKies(key, e)}
-      style={{ cursor: gekozen ? "default" : "pointer" }}
-    >
-      <circle cx={cx} cy={cy} r="16" fill={C.bgCard} stroke={C.brownText} strokeWidth="3" />
-      <circle cx={cx} cy={cy} r="7" fill={gekozen === key ? C.olive : C.beigeMid} stroke={C.brownText} strokeWidth="2" />
-      <text x={labelX} y={cy + 4} fontSize="15" fontWeight="bold" fill={C.brownText} textAnchor={anchor} fontStyle="italic">
-        {label}
-      </text>
+  // Natuurgetrouwe Remeha Avanta Ace (beeldtaal uit de cv-ketel-onderhoud-game):
+  // witte wandketel met typeplaat en display, daarboven de rookgasadapter met
+  // de twee meetpunten en de concentrische PP 60/100-afvoer.
+  const punt = (key, cx, cy, labelRegels, labelX, labelY, anchor) => (
+    <g key={key} onClick={(e) => !gekozen && onKies(key, e)} style={{ cursor: gekozen ? "default" : "pointer" }}>
+      {/* ruim klikvlak */}
+      <circle cx={cx} cy={cy} r="22" fill="transparent" />
+      <line
+        x1={anchor === "end" ? cx - 12 : cx + 12} y1={cy}
+        x2={anchor === "end" ? labelX + 6 : labelX - 6} y2={labelY - 4}
+        stroke={C.brown} strokeWidth="1.2"
+      />
+      {/* meetnippel met dop */}
+      <circle cx={cx} cy={cy} r="14" fill="none" stroke={C.olive} strokeWidth="1.5" strokeDasharray="4 4" opacity="0.9" />
+      <circle cx={cx} cy={cy} r="9.5" fill="url(#k_chr)" stroke="#4A555A" strokeWidth="2" />
+      <circle cx={cx} cy={cy} r="4" fill={gekozen === key ? C.olive : "#5E686C"} />
+      {labelRegels.map((t, i) => (
+        <text key={i} x={labelX} y={labelY + i * 15} fontSize="12.5" fontWeight="bold" fontStyle="italic" fill={C.brownText} textAnchor={anchor}>
+          {t}
+        </text>
+      ))}
     </g>
   );
 
   return (
-    <svg viewBox="0 0 560 330" className="w-full max-w-lg select-none">
-      {/* buitenbuis: luchttoevoer */}
-      <rect x="240" y="20" width="80" height="110" rx="6" fill={C.beigeLight} stroke={C.brownText} strokeWidth="3" />
-      {/* binnenbuis: rookgasafvoer */}
-      <rect x="262" y="8" width="36" height="122" rx="4" fill="#C9BBA2" stroke={C.brownText} strokeWidth="3" />
-      {/* stroomrichtingen */}
-      <text x="280" y="62" fontSize="20" textAnchor="middle" fill={C.brownText}>&#8593;</text>
-      <text x="252" y="80" fontSize="16" textAnchor="middle" fill={C.brown}>&#8595;</text>
-      <text x="309" y="80" fontSize="16" textAnchor="middle" fill={C.brown}>&#8595;</text>
-      {/* labels op de buizen */}
-      <text x="330" y="40" fontSize="13" fill={C.brown} fontStyle="italic">rookgas (binnenbuis)</text>
-      <line x1="298" y1="36" x2="326" y2="36" stroke={C.brown} strokeWidth="1.5" />
-      <text x="180" y="120" fontSize="13" fill={C.brown} fontStyle="italic" textAnchor="end">lucht (buitenbuis)</text>
-      <line x1="185" y1="124" x2="240" y2="124" stroke={C.brown} strokeWidth="1.5" />
-      {/* ketelkast */}
-      <rect x="170" y="130" width="220" height="170" rx="12" fill={C.bgCard} stroke={C.brownText} strokeWidth="4" />
-      <rect x="230" y="200" width="100" height="60" rx="8" fill={C.beigeLight} stroke={C.brownText} strokeWidth="3" />
-      {/* vlammetjes in het kijkglas */}
-      <path d="M262 248 q-6 -12 4 -20 q-2 10 8 12 q6 2 2 8 q-6 8 -14 0 Z" fill="#E67E22" />
-      <path d="M288 248 q-6 -12 4 -20 q-2 10 8 12 q6 2 2 8 q-6 8 -14 0 Z" fill="#E67E22" />
-      <text x="280" y="285" fontSize="13" textAnchor="middle" fill={C.brown} fontStyle="italic">Avanta Ace</text>
-      {/* meetpunten: rookgas op de adapter (binnenbuis), lucht op de buitenbuis */}
-      {punt("rookgas", 280, 145, "meetpunt op de rookgasadapter", 305, "start")}
-      {punt("lucht", 240, 95, "meetpunt op het luchttoevoerkanaal", 215, "end")}
+    <svg viewBox="0 0 560 322" className="w-full max-w-lg select-none">
+      <defs>
+        <linearGradient id="k_cas" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#DDE7E9" /><stop offset="0.15" stopColor="#FCFEFE" /><stop offset="0.6" stopColor="#F0F5F6" /><stop offset="1" stopColor="#D0DCDF" /></linearGradient>
+        <linearGradient id="k_pp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#94A2A7" /><stop offset="0.28" stopColor="#F0F5F6" /><stop offset="0.42" stopColor="#FFFFFF" /><stop offset="0.62" stopColor="#E0E7E9" /><stop offset="1" stopColor="#849197" /></linearGradient>
+        <linearGradient id="k_mof" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#9DAAAF" /><stop offset="0.3" stopColor="#F8FBFC" /><stop offset="0.62" stopColor="#DAE2E4" /><stop offset="1" stopColor="#8C999E" /></linearGradient>
+        <linearGradient id="k_chr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#8B999E" /><stop offset="0.3" stopColor="#E6ECEE" /><stop offset="0.6" stopColor="#AEBCC0" /><stop offset="1" stopColor="#79878C" /></linearGradient>
+        <linearGradient id="k_lcd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#0F3C54" /><stop offset="1" stopColor="#03121A" /></linearGradient>
+        <filter id="k_sh" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="3" dy="5" stdDeviation="5" floodColor="#15323b" floodOpacity="0.22" /></filter>
+      </defs>
+
+      {/* opstellingsruimte: wand met vage tegellijnen en vloer */}
+      <rect x="0" y="0" width="560" height="292" fill="#F3EDE0" />
+      <g stroke="#E6DEC9" strokeWidth="1" opacity="0.8">
+        {[72, 144, 216].map((y) => <line key={y} x1="0" y1={y} x2="560" y2={y} />)}
+        {[100, 400, 520].map((x) => <line key={x} x1={x} y1="0" x2={x} y2="292" />)}
+      </g>
+      <rect x="0" y="292" width="560" height="30" fill="#E3D9C3" />
+      <line x1="0" y1="292" x2="560" y2="292" stroke="#D5C9AE" strokeWidth="1" />
+      <ellipse cx="250" cy="292" rx="92" ry="5" fill="#0b2027" opacity="0.12" />
+
+      {/* concentrische PP 60/100-afvoer (pijp-in-pijp) */}
+      <rect x="228" y="14" width="44" height="98" fill="url(#k_pp)" />
+      <rect x="246" y="14" width="5" height="98" rx="2" fill="#fff" opacity="0.4" />
+      <rect x="224" y="48" width="52" height="11" rx="3" fill="url(#k_mof)" stroke="#B7C2C5" strokeWidth="0.5" />
+      <rect x="224" y="56.5" width="52" height="2" fill="#202c34" opacity="0.5" />
+      <text x="250" y="104" textAnchor="middle" fontFamily="monospace" fontSize="7.5" fill="#5E6E74" opacity="0.55" letterSpacing="1">PP 60/100</text>
+      <ellipse cx="250" cy="14" rx="22" ry="5" fill="#8FA0A6" />
+      <ellipse cx="250" cy="14" rx="16.5" ry="3.8" fill="#2B3740" />
+      <ellipse cx="250" cy="14" rx="10" ry="2.5" fill="#9AAAB0" />
+      <ellipse cx="250" cy="14" rx="5.5" ry="1.5" fill="#0E161B" />
+      {/* stroomrichtingen: rookgas omhoog (binnenbuis), lucht omlaag (buitenbuis) */}
+      <path d="M250 8 l0 -6 m-3.5 3 l3.5 -4 l3.5 4" fill="none" stroke="#B0532A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M234 24 l0 12 m-3 -4 l3 4 l3 -4" fill="none" stroke="#2980B9" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M266 24 l0 12 m-3 -4 l3 4 l3 -4" fill="none" stroke="#2980B9" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      {/* buislabels */}
+      <line x1="272" y1="40" x2="300" y2="40" stroke={C.brown} strokeWidth="1.2" />
+      <text x="304" y="44" fontSize="11.5" fontStyle="italic" fill={C.brown}>rookgasafvoer (binnenbuis)</text>
+      <line x1="228" y1="76" x2="202" y2="76" stroke={C.brown} strokeWidth="1.2" />
+      <text x="198" y="80" fontSize="11.5" fontStyle="italic" fill={C.brown} textAnchor="end">luchttoevoer (buitenbuis)</text>
+
+      {/* rookgasadapter bovenop de ketel, met de twee meetnippels */}
+      <rect x="218" y="112" width="64" height="38" rx="5" fill="url(#k_chr)" stroke="#9FAFB4" strokeWidth="0.8" />
+      <rect x="222" y="116" width="56" height="2.5" rx="1" fill="#fff" opacity="0.5" />
+      <circle cx="226" cy="144" r="1.6" fill="#5E686C" />
+      <circle cx="274" cy="144" r="1.6" fill="#5E686C" />
+
+      {/* de ketel zelf */}
+      <g filter="url(#k_sh)">
+        <rect x="170" y="150" width="160" height="130" rx="14" fill="url(#k_cas)" stroke="#C4D2D5" />
+        <rect x="176" y="154" width="148" height="3" rx="1.5" fill="#fff" opacity="0.8" />
+        <rect x="195" y="168" width="110" height="18" rx="4" fill="url(#k_chr)" stroke="#9FAFB4" strokeWidth="0.5" />
+        <text x="250" y="181" textAnchor="middle" fontFamily="'Work Sans',sans-serif" fontSize="10" fontWeight="800" fill="#4A5A60" letterSpacing="1.2">AVANTA ACE</text>
+        <rect x="195" y="228" width="110" height="34" rx="7" fill="#E7F0F1" stroke="#CBD8DB" />
+        <rect x="203" y="234" width="36" height="21" rx="3" fill="url(#k_lcd)" />
+        <text x="221" y="248.5" textAnchor="middle" fontFamily="monospace" fontSize="10" fill="#67E6DC">60&deg;</text>
+        <circle cx="264" cy="245" r="7" fill="#CBD8DB" stroke="#A4B6BB" />
+        <circle cx="292" cy="245" r="4.5" fill="#37C66B" />
+      </g>
+
+      {/* meetpunten: lucht (buitenbuis-zijde) en rookgas (binnenbuis-zijde) */}
+      {punt("lucht", 232, 131, ["meetpunt op het", "luchttoevoerkanaal"], 178, 122, "end")}
+      {punt("rookgas", 268, 131, ["meetpunt op de", "rookgasadapter"], 340, 122, "start")}
     </svg>
   );
 }
