@@ -323,10 +323,10 @@ function KetelSVG({ onKies, gekozen }) {
       {/* buislabels */}
       <line x1="272" y1="40" x2="300" y2="40" stroke={C.brown} strokeWidth="1.2" />
       <text x="304" y="44" fontSize="11.5" fontStyle="italic" fill={C.brown}>rookgasafvoer (binnenbuis)</text>
-      <line x1="228" y1="76" x2="202" y2="76" stroke={C.brown} strokeWidth="1.2" />
-      <text x="198" y="80" fontSize="11.5" fontStyle="italic" fill={C.brown} textAnchor="end">luchttoevoer (buitenbuis)</text>
+      <line x1="228" y1="30" x2="202" y2="30" stroke={C.brown} strokeWidth="1.2" />
+      <text x="198" y="34" fontSize="11.5" fontStyle="italic" fill={C.brown} textAnchor="end">luchttoevoer (buitenbuis)</text>
 
-      {/* rookgasadapter bovenop de ketel, met de twee meetnippels */}
+      {/* rookgasadapter bovenop de ketel; het ene meetgat zit precies in het midden */}
       <rect x="218" y="112" width="64" height="38" rx="5" fill="url(#k_chr)" stroke="#9FAFB4" strokeWidth="0.8" />
       <rect x="222" y="116" width="56" height="2.5" rx="1" fill="#fff" opacity="0.5" />
       <circle cx="226" cy="144" r="1.6" fill="#5E686C" />
@@ -345,9 +345,12 @@ function KetelSVG({ onKies, gekozen }) {
         <circle cx="292" cy="245" r="4.5" fill="#37C66B" />
       </g>
 
-      {/* meetpunten: lucht (buitenbuis-zijde) en rookgas (binnenbuis-zijde) */}
-      {punt("lucht", 232, 131, ["meetpunt op het", "luchttoevoerkanaal"], 178, 122, "end")}
-      {punt("rookgas", 268, 131, ["meetpunt op de", "rookgasadapter"], 340, 122, "start")}
+      {/* meetnippel op de zijkant van de buitenbuis (luchttoevoer) */}
+      <rect x="219" y="80" width="10" height="8" rx="2" fill="url(#k_chr)" stroke="#79878C" strokeWidth="0.6" />
+
+      {/* meetpunten: lucht op de buitenbuis, rookgas als het ene gat midden op de adapter */}
+      {punt("lucht", 216, 84, ["meetpunt op het", "luchttoevoerkanaal"], 168, 76, "end")}
+      {punt("rookgas", 250, 131, ["meetpunt op de", "rookgasadapter"], 340, 122, "start")}
     </svg>
   );
 }
@@ -529,7 +532,7 @@ function Ronde1({ addScore, meldAandacht, onDone }) {
             onKies={(key, e) => {
               if (key === "rookgas") {
                 setPuntGekozen("rookgas");
-                goed("meetpunt", "Het rookgasmeetpunt op de adapter: hier beoordeel je de verbrandingskwaliteit en het rendement. Het meetpunt op het luchttoevoerkanaal gebruik je voor iets anders: controleren of rookgassen recirculeren.", "sonde", e);
+                goed("meetpunt", "Het rookgasmeetpunt: het ene gat precies in het midden van de adapter, recht de binnenbuis in. Hier beoordeel je de verbrandingskwaliteit en het rendement. Het meetpunt op het luchttoevoerkanaal gebruik je voor iets anders: controleren of rookgassen recirculeren.", "sonde", e);
               } else {
                 fout("meetpunt", "Dit is het meetpunt op het luchttoevoerkanaal. Daar controleer je of rookgassen recirculeren: de CO₂-waarde moet er gelijk zijn aan de buitenluchtwaarde. Voor verbrandingskwaliteit en rendement meet je in het rookgasmeetpunt.", "meetpunt", e);
               }
