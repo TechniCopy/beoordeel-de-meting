@@ -337,7 +337,7 @@ function KetelSVG({ onKies, gekozen }) {
         <rect x="170" y="150" width="160" height="130" rx="14" fill="url(#k_cas)" stroke="#C4D2D5" />
         <rect x="176" y="154" width="148" height="3" rx="1.5" fill="#fff" opacity="0.8" />
         <rect x="195" y="168" width="110" height="18" rx="4" fill="url(#k_chr)" stroke="#9FAFB4" strokeWidth="0.5" />
-        <text x="250" y="181" textAnchor="middle" fontFamily="'Work Sans',sans-serif" fontSize="10" fontWeight="800" fill="#4A5A60" letterSpacing="1.2">AVANTA ACE</text>
+        <text x="250" y="181" textAnchor="middle" fontFamily="'Oxanium',sans-serif" fontSize="10" fontWeight="800" fill="#4A5A60" letterSpacing="1.2">AVANTA ACE</text>
         <rect x="195" y="228" width="110" height="34" rx="7" fill="#E7F0F1" stroke="#CBD8DB" />
         <rect x="203" y="234" width="36" height="21" rx="3" fill="url(#k_lcd)" />
         <text x="221" y="248.5" textAnchor="middle" fontFamily="monospace" fontSize="10" fill="#67E6DC">60&deg;</text>
@@ -1066,6 +1066,7 @@ function StartScreen({ onStart }) {
   return (
     <div className="flex-1 flex flex-col">
       <div className="py-3 px-5 text-center" style={{ backgroundColor: C.bgHeader }}>
+        <img src="/brand/logo-light.png" alt="PractiQ" className="mx-auto mb-2" style={{ height: 30 }} />
         <span className="text-white font-bold italic text-lg">Beoordeel de meting</span>
       </div>
       <div className="flex-1 flex flex-col items-center justify-center gap-5 p-8">
@@ -1236,7 +1237,7 @@ export default function MetingGame({ initialScreen = "start", onExit }) {
                   </div>
                 ))}
               </div>
-              <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#B08A2E" }}>
+              <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#C25E11" }}>
                 Jouw aandachtspunten
               </div>
               {aandacht.length === 0 ? (
@@ -1250,7 +1251,7 @@ export default function MetingGame({ initialScreen = "start", onExit }) {
                 <div className="flex flex-col gap-1.5">
                   {aandacht.map((t, i) => (
                     <div key={i} className="flex gap-2 items-start">
-                      <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: "#B08A2E" }} />
+                      <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: "#C25E11" }} />
                       <p className="text-sm leading-snug" style={{ color: C.brownText }}>{t}</p>
                     </div>
                   ))}
@@ -1261,7 +1262,7 @@ export default function MetingGame({ initialScreen = "start", onExit }) {
         )}
 
         <div className="py-2 text-center text-[10px]" style={{ color: C.brown }}>
-          Studium B.V. · Vakmanschap CO · MicroGame · Beoordeel de meting
+          PractiQ · Vakmanschap CO · MicroGame · Beoordeel de meting
         </div>
       </div>
     </div>

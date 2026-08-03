@@ -1,27 +1,27 @@
 /* eslint-disable react-refresh/only-export-components */
 // Gedeelde game-bibliotheek — overgenomen van de CLV-microgames (huisstijl
-// Studium microgames): game juice, pointer-based drag & drop, progressbar
+// PractiQ microgames): game juice, pointer-based drag & drop, progressbar
 // met levens, MC-controle, intro- en eindschermen.
 import { useState, useEffect, useCallback, useRef, createContext, useContext } from "react";
 import { CheckCircle, XCircle, Star, ArrowRight, RotateCcw, Heart, Lightbulb, ChevronDown, ChevronUp } from "lucide-react";
 
-// ─── THEME COLORS (huisstijl Studium microgames) ───
+// ─── THEME COLORS (huisstijl PractiQ microgames) ───
 
 export const C = {
-  bgPage: "#F5EFE4",      // zandbeige
-  bgCard: "#FFFCF5",
-  bgHeader: "#3B1E0A",    // donkerbruin
-  brownText: "#3B1E0A",   // tekst / rand
-  brown: "#6B4F2A",       // secundaire tekst
-  olive: "#5C6B2E",       // knoppen / interactie-accent
-  oliveDark: "#4A5725",
-  oliveLight: "#EDF0E0",
-  green: "#4A7C3F",       // succes
-  greenLight: "#E8F5E3",
-  red: "#C0392B",         // fout
-  redLight: "#FDEAEA",
-  beigeMid: "#D9CDB8",
-  beigeLight: "#EFE7D6",
+  bgPage: "#F7E3CF",      // peach
+  bgCard: "#FFFFFF",
+  bgHeader: "#242424",    // ink / zwartgrijs
+  brownText: "#242424",   // tekst / rand
+  brown: "#6B6B6B",       // secundaire tekst
+  olive: "#52B59C",       // knoppen / interactie-accent (mint)
+  oliveDark: "#3D9480",
+  oliveLight: "#E5F4EF",
+  green: "#2E9E5B",       // succes
+  greenLight: "#E2F5E9",
+  red: "#D9483B",         // fout
+  redLight: "#FDEAE8",
+  beigeMid: "#E6CBAA",
+  beigeLight: "#F3DCC3",
 };
 
 // ─── SOUND EFFECTS (Web Audio API) ───
@@ -195,7 +195,7 @@ function StreakIndicator({ streak }) {
     <div className="fixed top-20 right-4 z-[90] animate-bounce">
       <div
         className="rounded-xl px-4 py-2 shadow-lg border-2 font-bold italic text-sm"
-        style={{ backgroundColor: "#FBBF24", borderColor: C.brownText, color: C.brownText }}
+        style={{ backgroundColor: "#F9762E", borderColor: C.brownText, color: "white" }}
       >
         {streak}x op rij! {streak >= 5 ? "ONSTOPBAAR!" : streak >= 3 ? "COMBO!" : ""}
       </div>
@@ -428,7 +428,7 @@ export function Draggable({ payload, disabled = false, ghost, children, classNam
         outline: isSelected ? `3px solid ${C.olive}` : "none",
         outlineOffset: 2,
         borderRadius: 12,
-        boxShadow: isSelected ? "0 0 0 6px rgba(92,107,46,0.2)" : "none",
+        boxShadow: isSelected ? "0 0 0 6px rgba(82,181,156,0.25)" : "none",
         ...style,
       }}
     >
@@ -506,8 +506,8 @@ export function DragCard({ label, disabled, small = false }) {
       className={`${small ? "px-3 py-1.5 text-xs" : "px-4 py-2.5 text-sm"} rounded-xl font-bold select-none shadow-md border-2 italic text-center`}
       style={{
         backgroundColor: disabled ? C.beigeMid : C.olive,
-        color: disabled ? "#8B7355" : "white",
-        borderColor: disabled ? "#B8A990" : C.oliveDark,
+        color: disabled ? "#8C857C" : "white",
+        borderColor: disabled ? "#D8C6B0" : C.oliveDark,
         opacity: disabled ? 0.5 : 1,
       }}
     >
@@ -546,9 +546,9 @@ export function ProgressBar({ currentRound, totalRounds = 3, score, lives }) {
   }, [score]);
 
   return (
-    <div className="flex items-center justify-between py-3 px-5" style={{ backgroundColor: C.bgHeader }}>
+    <div className="flex items-center justify-between py-3 px-3 sm:px-5" style={{ backgroundColor: C.bgHeader }}>
       <div className="flex items-center gap-4">
-        <span className="text-white font-bold text-sm">Ronde:</span>
+        <span className="hidden sm:inline text-white font-bold text-sm">Ronde:</span>
         <div className="flex gap-1.5">
           {rounds.map((r) => {
             const isComplete = r < currentRound;
@@ -558,8 +558,8 @@ export function ProgressBar({ currentRound, totalRounds = 3, score, lives }) {
                 key={r}
                 className="w-5 h-5 rounded-full border-2 flex items-center justify-center text-[9px] font-bold transition-all duration-300"
                 style={{
-                  backgroundColor: isComplete || isCurrent ? "#F5EFE4" : "transparent",
-                  borderColor: isComplete || isCurrent ? "#F5EFE4" : C.beigeMid,
+                  backgroundColor: isComplete || isCurrent ? "#F7E3CF" : "transparent",
+                  borderColor: isComplete || isCurrent ? "#F7E3CF" : C.beigeMid,
                 }}
               >
                 {isComplete && <span style={{ color: C.brownText }} className="text-[8px]">&#10003;</span>}
@@ -573,18 +573,18 @@ export function ProgressBar({ currentRound, totalRounds = 3, score, lives }) {
           {[1, 2, 3, 4, 5].map((h) => (
             <Heart
               key={h}
-              className="w-4 h-4 transition-all duration-300"
+              className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-all duration-300"
               fill={h <= lives ? "#E74C3C" : "transparent"}
-              stroke={h <= lives ? "#E74C3C" : "#8B7355"}
+              stroke={h <= lives ? "#E74C3C" : "#8C857C"}
               style={{ opacity: h <= lives ? 1 : 0.3 }}
             />
           ))}
         </div>
         <span className="text-white font-bold text-sm">
-          Score:{" "}
+          <span className="hidden sm:inline">Score:{" "}</span>
           <span
             className="text-lg inline-block transition-transform duration-200"
-            style={{ transform: scorePop ? "scale(1.5)" : "scale(1)", color: scorePop ? "#FBBF24" : "white" }}
+            style={{ transform: scorePop ? "scale(1.5)" : "scale(1)", color: scorePop ? "#F9762E" : "white" }}
           >
             {displayScore}
           </span>
@@ -599,9 +599,9 @@ export function ProgressBar({ currentRound, totalRounds = 3, score, lives }) {
 export function GameButton({ onClick, children, variant = "primary", disabled = false, className = "" }) {
   const styles = {
     primary: { backgroundColor: C.olive, hoverBg: C.oliveDark, color: "white" },
-    green: { backgroundColor: C.green, hoverBg: "#3A6B30", color: "white" },
-    secondary: { backgroundColor: C.beigeMid, hoverBg: "#C9BBA2", color: C.brownText },
-    danger: { backgroundColor: C.red, hoverBg: "#A93226", color: "white" },
+    green: { backgroundColor: C.green, hoverBg: "#24824A", color: "white" },
+    secondary: { backgroundColor: C.beigeMid, hoverBg: "#EACFAF", color: C.brownText },
+    danger: { backgroundColor: C.red, hoverBg: "#B93A2F", color: "white" },
   };
   const s = styles[variant];
 
@@ -614,8 +614,8 @@ export function GameButton({ onClick, children, variant = "primary", disabled = 
       } ${className}`}
       style={{
         backgroundColor: disabled ? C.beigeMid : s.backgroundColor,
-        borderColor: disabled ? "#B8A990" : s.backgroundColor,
-        color: disabled ? "#8B7355" : s.color,
+        borderColor: disabled ? "#D8C6B0" : s.backgroundColor,
+        color: disabled ? "#8C857C" : s.color,
       }}
       onMouseEnter={(e) => {
         if (!disabled) e.currentTarget.style.backgroundColor = s.hoverBg;
@@ -639,7 +639,7 @@ export function FeedbackPopup({ type, text, onClose, buttonText = "Volgende" }) 
         className="w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl shadow-2xl p-6"
         style={{
           backgroundColor: isCorrect ? C.green : C.red,
-          borderTop: `4px solid ${isCorrect ? "#3A6B30" : "#A93226"}`,
+          borderTop: `4px solid ${isCorrect ? "#24824A" : "#B93A2F"}`,
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -651,7 +651,7 @@ export function FeedbackPopup({ type, text, onClose, buttonText = "Volgende" }) 
         <button
           onClick={onClose}
           className="w-full py-2.5 rounded-xl font-bold text-sm transition-colors"
-          style={{ backgroundColor: isCorrect ? "#3A6B30" : "#A93226", color: "white" }}
+          style={{ backgroundColor: isCorrect ? "#24824A" : "#B93A2F", color: "white" }}
         >
           {buttonText}
         </button>
@@ -741,7 +741,7 @@ export function MCControle({ pool, addScore, loseLife, onComplete, lastRound = f
                   : checked && selected === i && i !== q.correct
                   ? C.redLight
                   : selected === i
-                  ? "#FFF0D6"
+                  ? "#FDEBDD"
                   : C.bgCard,
               borderColor:
                 checked && i === q.correct
@@ -804,7 +804,7 @@ export function EndScreen({ score, maxScore, lives, text, onRestart, onExit, exi
       </div>
       <div className="flex items-center gap-1">
         {[1, 2, 3, 4, 5].map((h) => (
-          <Heart key={h} className="w-5 h-5" fill={h <= lives ? "#E74C3C" : "transparent"} stroke={h <= lives ? "#E74C3C" : "#B8A990"} />
+          <Heart key={h} className="w-5 h-5" fill={h <= lives ? "#E74C3C" : "transparent"} stroke={h <= lives ? "#E74C3C" : "#D8C6B0"} />
         ))}
       </div>
       <div className="border-2 rounded-2xl p-6 max-w-lg" style={{ backgroundColor: C.bgCard, borderColor: C.brownText }}>
@@ -828,7 +828,7 @@ export function StepBanner({ step }) {
   const map = {
     0: { txt: "Uitleg vooraf", bg: C.beigeLight, border: C.brown, color: C.brown },
     1: { txt: "Stap 1: Interactie", bg: C.oliveLight, border: C.olive, color: C.oliveDark },
-    2: { txt: "Stap 2: Controle", bg: "#FFF0D6", border: C.brown, color: C.brown },
+    2: { txt: "Stap 2: Controle", bg: "#FDEBDD", border: C.brown, color: C.brown },
   };
   const s = map[step] ?? map[1];
   return (
@@ -886,7 +886,7 @@ export function UitlegItem({ term, children }) {
 export function UitlegStrook({ title = "Spiekbriefje", children, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="w-full max-w-lg mb-3 rounded-xl border-2 overflow-hidden" style={{ borderColor: C.brown, backgroundColor: "#FBF6EA" }}>
+    <div className="w-full max-w-lg mb-3 rounded-xl border-2 overflow-hidden" style={{ borderColor: C.brown, backgroundColor: "#FDF4E9" }}>
       <button
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between px-3 py-1.5 text-xs font-bold"
